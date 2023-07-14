@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login and Registration Form</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/css/bootstrap.min.css">
+  <script  src="./url.js"></script>
+
+ <style>
+    body {
+      background-color: #30f8ee;
+      min-height: 100vh;
+    }
+
+    /* Existing custom styles */
+    .container {
+      position: relative;
+      width: 800px;
+      height: 500px;
+      background: #fff;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    .user {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+    }
+
+    .imgBx {
+      position: relative;
+      width: 50%;
+      height: 100%;
+      background: #ff0;
+      transition: 0.5s;
+    }
+
+    .imgBx img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .formBx {
+      position: relative;
+      width: 50%;
+      height: 100%;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 40px;
+      transition: 0.5s;
+    }
+
+    form h2 {
+      font-size: 18px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      width: 100%;
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    form input {
+      position: relative;
+      width: 100%;
+      padding: 10px;
+      background: #f5f5f5;
+      color: #333;
+      border: none;
+      outline: none;
+      box-shadow: none;
+      margin: 8px 0;
+      font-size: 14px;
+      letter-spacing: 1px;
+      font-weight: 300;
+    }
+
+    form input[type='submit'] {
+      max-width: 100px;
+      background: #677eff;
+      color: #fff;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      letter-spacing: 1px;
+      transition: 0.5s;
+    }
+
+    form .signup {
+      position: relative;
+      margin-top: 20px;
+      font-size: 12px;
+      letter-spacing: 1px;
+      color: #555;
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+
+    form .signup a {
+      font-weight: 600;
+      text-decoration: none;
+      color: #677eff;
+    }
+
+    /* Additional styles to make the form responsive */
+    @media (max-width: 991px) {
+      .container {
+        max-width: 400px;
+      }
+
+      .imgBx {
+        display: none;
+      }
+
+      .formBx {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="user signupBx">
+      <div class="formBx">
+        <form id="signupForm" onsubmit="return validateSignUpForm(event);">
+          <h2 class="mb-4">Create an account</h2>
+          <div class="mb-3">
+            <input type="text" class="form-control" placeholder="username" id="username">
+          </div>
+          <div class="mb-3">
+            <input type="email" class="form-control" placeholder="Email Address" id="Email">
+          </div>
+          <div class="mb-3">
+            <input type="password" class="form-control" placeholder="Create Password" id="lpassword" >
+          </div>
+          <div class="mb-3">
+            <input type="password" class="form-control" placeholder="Confirm Password" id="password" >
+          </div>
+          <div class="mb-3">
+            <button class="btn" type="submit" onclick="signupUser()">Sign Up</button>
+          </div>
+          <p class="signup">
+            Already have an account?
+            <a href="#" onclick="toggleForm('signinBx');">Sign in.</a>
+          </p>
+        </form>
+      </div>
+      <div class="imgBx">
+        <img src="./pixel.jpg" alt="">
+      </div>
+    </div>
+    <div class="user signinBx">
+      <div class="imgBx">
+        <img src="./pixel.jpg" alt="">
+      </div>
+      <div class="formBx">
+        <form id="signinForm" onsubmit="return validateSignInForm(event);">
+          <img src="../exafluence.png" style="margin-left: 30%;" class="mt-6 pt-4 mb-lg-4">
+          <h2 class="mb-4">Sign In</h2>
+          <div class="mb-3">
+
+            <input type="text" class="form-control" placeholder="Username">
+          </div>
+          <div class="mb-3">
+            <input type="password" class="form-control" placeholder="Password">
+          </div>
+          <div class="mb-3">
+            <input type="submit" class="btn btn-primary" value="Login">
+          </div>
+          <a href="#!" class="text-body">Forgot password?</a>
+          <p class="signup mt-3">
+            Don't have an account?
+            <a href="#" onclick="toggleForm('signupBx');">Sign Up.</a>
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+<!-- <script>
+  
+  const signInBtn = document.getElementById("signIn");
+  const signUpBtn = document.getElementById("signUp");
+  const fistForm = document.getElementById("form1");
+  const secondForm = document.getElementById("form2");
+  const container = document.querySelector(".container");
+
+  let invalidusername = document.getElementById("invalidusername");
+
+  signInBtn.addEventListener("click", () => {
+      container.classList.remove("right-panel-active");
+  });
+
+  signUpBtn.addEventListener("click", () => {
+      container.classList.add("right-panel-active");
+  });
+
+  fistForm.addEventListener("submit", (e) => e.preventDefault());
+  secondForm.addEventListener("submit", (e) => e.preventDefault());
+
+  function signupUser() {
+      const thisForm = document.getElementById('signupform');
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+      const formData = new FormData(thisForm).entries();
+      var raw = JSON.stringify(Object.fromEntries(formData));
+      thisForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          fetch("http://localhost:9090/api/auth/signup", {
+              method: "POST",
+              headers: myHeaders,
+              body: raw,
+              redirect: 'follow'
+          }).then(response => {
+              if (response.status === 200) {
+                  // parsing the response body as JSON 
+                  return response.json();
+              } else if (response.status === 400) {
+                  // parsing the error response body as JSON
+                  return response.json().then(errorData => {
+                      const errorMessageElement = document.getElementById('errorMessage');
+                      errorMessageElement.textContent = errorData.message;
+                      const successMessageElement = document.getElementById('successMessage');
+                      successMessageElement.textContent = '';
+
+                  });
+              } else {
+                  throw new Error('Network response was not ok.');
+              }
+          }).then(data => {
+              console.log(data.message);
+              const successMessage = document.getElementById('successMessage');
+              successMessage.textContent = data.message;
+              const errorMessageElement = document.getElementById('errorMessage');
+              errorMessageElement.textContent = '';
+          }).catch(error => {
+              // Handle any errors here 
+              console.error('There was a problem with the fetch operation:', error);
+
+          });
+      });
+  }
+
+</script> -->
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha2/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const toggleForm = (formType) => {
+      const container = document.querySelector('.container');
+      container.classList.toggle('active');
+
+      // Reset form inputs
+      const signInBtn = document.getElementById("signIn");
+       const signUpBtn = document.getElementById("signUp");
+      const fistForm = document.getElementById('signinForm').reset();
+      const secondForm = document.getElementById('signupForm').reset();
+
+      // Show/hide the corresponding form
+      const signinForm = document.querySelector('.signinBx');
+      const signupForm = document.querySelector('.signupBx');
+      if (formType === 'signinBx') {
+        signinForm.style.left = '0';
+        signupForm.style.left = '100%';
+      } else {
+        signinForm.style.left = '-100%';
+        signupForm.style.left = '0';
+      }
+    };
+
+    const validateSignInForm = (event) => {
+      // Perform validation here
+      // You can add your own validation logic
+      // Return true to submit the form, or false to prevent submission
+      event.preventDefault(); // Prevent form submission for demonstration purposes
+      console.log(prasadUrl);
+      console.log('Sign In form submitted.');
+      return false;
+    };
+
+    const validateSignUpForm = (event) => {
+      // Perform validation here
+      // You can add your own validation logic
+      // Return true to submit the form, or false to prevent submission
+      console.log(prasadUrl);
+      event.preventDefault(); // Prevent form submission for demonstration purposes
+      console.log('Sign Up form submitted.');
+      return false;
+    };
+
+    let invalidusername = document.getElementById("invalidusername");
+
+signInBtn.addEventListener("click", () => {
+    container.classList.remove("right-panel-active");
+});
+
+signUpBtn.addEventListener("click", () => {
+    container.classList.add("right-panel-active");
+});
+
+fistForm.addEventListener("submit", (e) => e.preventDefault());
+secondForm.addEventListener("submit", (e) => e.preventDefault());
+
+
+function signupUser() {
+
+    const thisForm = document.getElementById('signupform');
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const formData = new FormData(thisForm).entries();
+    var raw = JSON.stringify(Object.fromEntries(formData));
+    thisForm.addEventListener('submit', function (e) {
+        e.preventDefault();
+        fetch(prasadUrl+"/api/auth/signup", {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        }).then(response => {
+            if (response.status === 200) {
+                // parsing the response body as JSON 
+                return response.json();
+            } else if (response.status === 400) {
+                // parsing the error response body as JSON
+                return response.json().then(errorData => {
+                    const errorMessageElement = document.getElementById('errorMessage');
+                    errorMessageElement.textContent = errorData.message;
+                    const successMessageElement = document.getElementById('successMessage');
+                    successMessageElement.textContent = '';
+
+                });
+            } else {
+                throw new Error('Network response was not ok.');
+            }
+        }).then(data => {
+            console.log(data.message);
+            const successMessage = document.getElementById('successMessage');
+            successMessage.textContent = data.message;
+            const errorMessageElement = document.getElementById('errorMessage');
+            errorMessageElement.textContent = '';
+        }).catch(error => {
+            // Handle any errors here 
+            console.error('There was a problem with the fetch operation:', error);
+
+        });
+    });
+}
+
+  </script> 
+  
+</body>
+
+</html>
