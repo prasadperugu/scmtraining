@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+    xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    rel="stylesheet"
+  />
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+    rel="stylesheet"
+  />
+  <!-- MDB -->
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/5.0.0/mdb.min.css"
+    rel="stylesheet"
+  />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>New Shipment Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      background-color: #f9f9f9;
+      font-family: 'Roboto', sans-serif;
+      
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #008CBA;
+    }
+
+    label {
+      color: #008CBA;
+    }
+
+    input[type=text], input[type=date], select, textarea {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: vertical;
+    }
+
+    select {
+      appearance: none;
+      background-color: #f2f2f2;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 8px 10px;
+      padding-right: 32px;
+    }
+
+    textarea {
+      height: 100px;
+    }
+
+    input[type=submit], button {
+      background-color: #008CBA;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    input[type=submit]:hover, button:hover {
+      background-color: #007095;
+    }
+
+    .alert {
+      padding: 12px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+    }
+
+    .alert-info {
+      background-color: #cce5ff;
+      color: #004085;
+    }
+
+    .alert-danger {
+      background-color: #f8d7da;
+      color: #721c24;
+    }
+
+    .actions {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .cancel-btn {
+      background-color: #ccc;
+    }
+
+    .create-btn {
+      background-color: #00cb82;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Create A New Shipment</h1>
+
+  <div class="container">
+    <form id="shipment" th:object="${Shipment}">
+      <div class="row">
+        <div class="col-25">
+          <label for="fname">Shipment/Invoice Number</label>
+        </div>
+        <div class="col-75">
+          <input type="text" id="fname" name="shipmentNumber" placeholder="Shipment/Invoice Number" required>
+        </div>
+      </div>
+      <!-- Add more input fields here as needed -->
+
+      <div class="row">
+        <div class="col-25">
+          <label for="lname">Container Number</label>
+        </div>
+        <div class="col-75">
+          <div class="custom-input">
+            <input type="text" id="lname" name="containerNumber" placeholder="Container Number" required>
+            <span class="underline"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-25">
+          <label for="subject">Shipment Description</label>
+        </div>
+        <div class="col-75">
+          <div class="custom-input">
+            <textarea id="subject" name="descripton" placeholder="Enter Your Description" style="height:100px"  onkeypress="return blockSpecialChar(event)" required="required"></textarea>
+            <span class="underline"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-25">
+          <label for="Route">Route Details</label>
+        </div>
+        <div class="col-75">
+          <div class="select-box">
+            <select id="Route" name="route" required>
+              <option value="" disabled selected hidden>Select Route</option>
+              <option value="australia-england">Australia-England</option>
+              <option value="canada-japan">Canada-Japan</option>
+              <option value="usa-srilanka">USA-Sri Lanka</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-25">
+          <label for="country">Goods Type</label>
+        </div>
+        <div class="col-75">
+          <div class="select-box">
+            <select id="Goods" name="goods" required>
+              <option value="" disabled selected hidden>Select Goods</option>
+              <option>Groceries</option>
+              <option>Electronics</option>
+              <option>Automobiles</option>
+              <option>Pharmaceuticals</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-25">
+          <label for="country">Device</label>
+        </div>
+        <div class="col-75">
+          <div class="select-box">
+            <select id="country" name="country" required>
+              <option value="" disabled selected hidden>Select Device</option>
+              <option>20230101</option>
+              <option>20230102</option>
+              <option>20230103</option>
+              <option>20230104</option>
+              <option>20230105</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-25">
+          <label for="Date">Expected Delivery Date</label>
+        </div>
+        <div class="col-75">
+          <div class="custom-input">
+            <input type="date" name="deliveryDate" placeholder="Expected Delivery Date" required />
+            <span class="underline"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-25">
+          <label for="PONumber">PONumber</label>
+        </div>
+        <div class="col-75">
+          <div class="custom-input">
+            <input type="text" id="Integer" name="pONumber" placeholder="PONumber" required>
+            <span class="underline"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-25">
+          <label for="lname">Delivery Number</label>
+        </div>
+        <div class="col-75">
+          <div class="custom-input">
+            <input type="text" id="Delivery" name="deliveryNumber" placeholder="Delivery Number" required>
+            <span class="underline"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-25">
+          <label for="lname">NDC Number</label>
+        </div>
+        <div class="col-75">
+          <div class="custom-input">
+            <input type="text" id="NDC Number" name="nDCNumber" placeholder="NDC Number" required>
+            <span class="underline"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-25">
+          <label for="lname">Batch Id</label>
+        </div>
+        <div class="col-75">
+          <div class="custom-input">
+            <input type="text" id="lname" name="batchId" placeholder="Batch Id" required>
+            <span class="underline"></span>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-25">
+          <label for="lname">Serial Number Of Goods</label>
+        </div>
+        <div class="col-75">
+          <div class="custom-input">
+            <input type="text" id="lname" name="serialNumberOfGoods" placeholder="Serial Number Of Goods" required>
+            <span class="underline"></span>
+          </div>
+        </div>
+      </div>
+      <br>
+
+      <div class="alert alert-info" id="shipmentSuccess" style="display: none;"></div>
+      <div class="alert alert-danger" id="shipmentError" style="display: none;"></div>
+
+      <div class="actions">
+        <button type="button" class="cancel-btn" onclick="resetForm()">Cancel Shipment</button>
+        <button type="submit" class="create-btn">Create Shipment</button>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    function blockSpecialChar(e){
+      var k;
+      document.all ? k = e.keyCode : k = e.which;
+      return ((k > 64 && k < 91) || (k > 96 && k < 123) || k == 8 || k == 32 || (k >= 48 && k <= 57));
+    }
+
+    function resetForm() {
+      document.getElementById("shipment").reset();
+      document.getElementById('shipmentSuccess').style.display = "none";
+      document.getElementById('shipmentError').style.display = "none";
+    }
+    const email = localStorage.getItem('email');
+    console.log(email);
+    document.getElementById("shipment").addEventListener("submit", function (e) {
+      e.preventDefault();
+      var myHeaders = new Headers();
+      myHeaders.append("Content-Type", "application/json");
+
+      // const formData = new FormData(this).entries();
+      // var raw = JSON.stringify(Object.fromEntries(formData));
+      // console.log("***",email);
+      // // const formData = new FormData(thisForm);
+      // formData.append('email', email);
+      // console.log(formData);
+      // // const raw = JSON.stringify(Object.fromEntries(formData));
+      const thisForm = document.getElementById('shipment');
+
+      const formData = new FormData(thisForm);
+      formData.append('email', email);
+      console.log(formData);
+
+   const raw = JSON.stringify(Object.fromEntries(formData));
+   
+      var requestOptions = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow'
+      };
+
+      fetch("http://localhost:8081/shipment/create", requestOptions)
+          .then(response => response.text())
+          .then(result => {
+            // Here comparing the input result if the result is existing retuns the success msg other wise retuns the error msg
+            if (result.includes("Exists")) {
+
+              document.getElementById('shipmentSuccess').style.display = "none";
+              document.getElementById('shipmentError').style.display = "block";
+              document.getElementById('shipmentError').innerText = result;
+              thisForm.reset();
+
+            }
+            else {
+
+              document.getElementById('shipmentError').style.display = "none";
+              document.getElementById('shipmentSuccess').style.display = "block";
+              document.getElementById('shipmentSuccess').innerText = result;
+              thisForm.reset();
+
+            }
+          })
+          .catch(error => console.log('error', error));
+      });
+    
+  </script>
+</body>
+</html>

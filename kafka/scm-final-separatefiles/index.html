@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign in to Scm/Sign Up</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <style>
+
+body {
+      /* background: url("./interstellar_droneshot.jpg") no-repeat fixed; */
+      background-size: 100% 100%;
+    }
+    .sign-up-form,
+    .forgot-password-form {
+      display: none;
+    }
+  </style>
+  <!-- Include the separate JavaScript files -->
+  <script src="./signin.js"></script>
+  <script src="./signUp.js"></script>
+  <script src="./forgotPassword.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="row justify-content-center mt-5">
+      <div class="col-lg-4 col-md-6">
+        <!-- Sign In Form -->
+        <div class="card sign-in-form">
+          <div class="text-center my-2">
+            <!-- <img src="./exflog.jpg" alt="Scm Logo" class="img-fluid"> -->
+          </div>
+          <div class="card-body">
+            <h4 class="card-title text-center">Sign in to Scm</h4>
+            <form id="signinform">
+              <div class="form-group">
+                <label for="signInEmail">Email address</label>
+                <input type="email" class="form-control" id="email" name="email"  placeholder="Enter email" required/>
+              </div>
+              <div class="form-group">
+                <label for="signInPassword">Password</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="Enter password" required/>
+              </div>
+              <!-- Call the function to handle sign in -->
+              <div class="g-recaptcha" data-sitekey="6LfqfTQnAAAAAP6b9Mb7Jpk9cKUwYIOwAH43ppOE"></div><br>
+              <!-- End of Google reCAPTCHA widget -->
+              <button type="button" class="btn btn-primary btn-block" onclick="signinUser()">Sign In</button>
+              <button id="signUpBtn" type="button" class="btn btn-link btn-block mt-2" onclick="showSignUpForm()">Create an Account</button>
+              <button id="forgotPasswordBtn" type="button" class="btn btn-link btn-block mt-2" onclick="showForgotPasswordForm()">Forgot Password?</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Sign Up Form -->
+        <div class="card sign-up-form">
+          <div class="card-body">
+            <h4 class="card-title text-center">Join Scm today.</h4>
+            <form id="signupform">
+              <div class="form-group">
+                <label for="signUpName">Name</label>
+                <input type="text" class="form-control" name="username" id="signUpName" placeholder="Enter name">
+              </div>
+              <div class="form-group">
+                <label for="signUpEmail">Email address</label>
+                <input type="email" class="form-control" name="email" id="signUpEmail" placeholder="Enter email">
+              </div>
+              <div class="form-group">
+                <label for="signUpPassword">Password</label>
+                <input type="password" class="form-control" name="password" id="signUpPassword" placeholder="Enter password">
+              </div>
+              <!-- Call the function to handle sign up -->
+              <button type="button" class="btn btn-primary btn-block" onclick="signupUser(document.getElementById('signupform'))">Sign Up</button>
+              <button id="signInBtn" type="button" class="btn btn-link btn-block mt-2" onclick="showSignInForm()">Already have an account? Sign In</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Forgot Password Form -->
+        <div class="card forgot-password-form">
+          <div class="card-body">
+            <h4 class="card-title text-center">Forgot Password</h4>
+            <form>
+              <div class="form-group">
+                <label for="forgotPasswordEmail">Email address</label>
+                <input type="email" class="form-control" id="forgotPasswordEmail" placeholder="Enter email">
+              </div>
+              <!-- Call the function to handle forgot password -->
+              <button type="button" class="btn btn-primary btn-block" onclick="Forgot(document.getElementById('forgotPasswordEmail').value)">Reset Password</button>
+              <button id="returnToSignInBtn" type="button" class="btn btn-link btn-block mt-2" onclick="showSignInForm()">Return to Sign In</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Added success and error message elements -->
+    <div class="row justify-content-center mt-3">
+      <div class="col-lg-4 col-md-6">
+        <p id="successMessage"></p>
+        <p id="errorMessage"></p> <!-- Added error message element -->
+      </div>
+    </div>
+  </div>
+    <!-- Google reCAPTCHA script -->
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+
+  <script>
+    function showSignUpForm() {
+      var signInForm = document.querySelector('.sign-in-form');
+      var signUpForm = document.querySelector('.sign-up-form');
+      var forgotPasswordForm = document.querySelector('.forgot-password-form');
+
+      signInForm.style.display = 'none';
+      signUpForm.style.display = 'block';
+      forgotPasswordForm.style.display = 'none';
+    }
+
+    function showForgotPasswordForm() {
+      var signInForm = document.querySelector('.sign-in-form');
+      var signUpForm = document.querySelector('.sign-up-form');
+      var forgotPasswordForm = document.querySelector('.forgot-password-form');
+
+      signInForm.style.display = 'none';
+      signUpForm.style.display = 'none';
+      forgotPasswordForm.style.display = 'block';
+    }
+
+    function showSignInForm() {
+      var signInForm = document.querySelector('.sign-in-form');
+      var signUpForm = document.querySelector('.sign-up-form');
+      var forgotPasswordForm = document.querySelector('.forgot-password-form');
+
+      signInForm.style.display = 'block';
+      signUpForm.style.display = 'none';
+      forgotPasswordForm.style.display = 'none';
+    }
+  </script>
+</body>
+
+</html>
