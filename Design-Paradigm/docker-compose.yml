@@ -1,0 +1,43 @@
+version: '3'
+services:
+  frontend:
+    image: prasadperugu/frontend
+    ports:
+      - 80:80
+  authserver:
+    image: prasadperugu/scmapp
+    ports:
+      - 8081:8081
+    environment:
+      HOSTNAME: localhost
+      SPRING_DATA_MONGODB_URI: mongodb+srv://prasadperugu:Earth%403958m@cluster0.qadgh5p.mongodb.net/?retryWrites=true&w=majority
+      SPRING_CLOUD_STREAM_KAFKA_BINDER_BROKERS: kafka:9092
+    depends_on:
+      - kafka
+      - zookeeper
+      - server
+  zookeeper:
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:latest
+    depends_on:
+      - zookeeper
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: "zookeeper:2181"
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    ports:
+      - "9092:9092"
+  server:
+    image: prasadperugu/server
+    ports:
+      - 12345:12345
+    depends_on:
+      - kafka
